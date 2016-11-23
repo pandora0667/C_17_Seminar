@@ -5,7 +5,7 @@
 
 #define S_SIZE 100
 
-typedef struct movie { 
+typedef struct MOVIE { 
 	char title[S_SIZE];
 	int year;
 	struct MOVIE *link; 
@@ -13,8 +13,8 @@ typedef struct movie {
 
 int main()
 {
-	MOVIE *list; 
-	MOVIE *prev, *linkMovie, *next; 
+	MOVIE *head = NULL; 
+	MOVIE *tail, *addMovie, *next, *tmp; 
 
 	char buffer[S_SIZE]; 
 	int tmpYear, select; 
@@ -25,13 +25,10 @@ int main()
 	{
 		printf("-------------------------------------------\n");
 		printf(" 1. 영화정보 추가\n 2. 영화정보 출력\n 3. 종료 \n");
-		scanf("%d", &select); 
+		scanf("%d", &select);  
 
-		if( select == 3 )
-			break; 
-
-		linkMovie = ( MOVIE * )malloc( sizeof(MOVIE) ); 
-		if( linkMovie == NULL ) 
+		addMovie = ( MOVIE * )malloc( sizeof(MOVIE) ); 
+		if( addMovie == NULL ) 
 		{
 			fprintf(stderr, "동적할당 실패\n");
 			exit(1); 
@@ -39,48 +36,51 @@ int main()
 
 		switch ( select ) 
 		{
-			case 1 : 
-				   printf("영화 제목 : ");
-				   fgets(buffer, S_SIZE, stdin); 
-				   strcpy(linkMovie -> title, buffer);
+			case 1 :
+				getchar();
+				printf("영화 제목 : ");
+				fgets(buffer, S_SIZE, stdin); 
+				strcpy(addMovie->title, buffer);
 
-				   printf("영화 개봉 연도 : ");
-				   fgets(buffer, S_SIZE, stdin);
-				   tmpYear = atoi(buffer); 
-				   linkMovie -> year = tmpYear;
+				printf("영화 개봉 연도 : ");
+				fgets(buffer, S_SIZE, stdin);
+				tmpYear = atoi(buffer); 
+				addMovie->year = tmpYear;
 
-				   if( list == NULL)
-					  list = linkMovie;
-				   else 
-					   prev -> link = linkMovie; 
-				   
-				   linkMovie -> link = NULL; 
-				   prev = linkMovie; 
+				if( head == NULL)
+					 head = addMovie;
+				else 
+					tail -> link = addMovie;
 
-				   break;
+				addMovie->link = NULL; 
+				tail = addMovie; 
+				break;
+
 			case 2 :
-				   printf("\n\n");
-				   while( linkMovie != NULL) 
-				   {
-					   printf("\t  %s \t %d 개봉\n", linkMovie -> title, linkMovie -> year);
-					   linkMovie = linkMovie -> link; 
-				   }
-				   break; 
+				printf("\n\n");
+				system("clear");
+				tmp = head;
+				while( tmp != NULL) 
+				{
+					 printf("영화 : %s  %d년 개봉\n", tmp->title, tmp->year);
+					 tmp = tmp -> link; 
+				}
+				break;
+
 			case 3 : 
-					printf("종료 합니다. \n\n");
-					return 0; 
+				printf("종료 합니다. \n\n");
+				return 0; 
 			default :
-					printf("Retry!!\n");
+				printf("Retry!!\n");
 		}
-
-		linkMovie = list;
 	}
+	tmp = head; 
 
-	while( linkMovie != NULL )
+	while( addMovie != NULL )
 	{
-		next = linkMovie -> link;
-		free(linkMovie); 
-		linkMovie = next;
+		next = addMovie->link;
+		free(addMovie); 
+		addMovie = next;
 	}
 
 	return 0; 
