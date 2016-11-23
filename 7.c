@@ -76,11 +76,11 @@ int main()
 	}
 	tmp = head; 
 
-	while( addMovie != NULL )
+	while( tmp != NULL )
 	{
-		next = addMovie->link;
-		free(addMovie); 
-		addMovie = next;
+		next = tmp->link;
+		free(tmp); 
+		tmp = next;
 	}
 
 	return 0; 
