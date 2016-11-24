@@ -62,7 +62,7 @@ int main()
 				tmp = head;
 				while( tmp != NULL) 
 				{
-					 printf("영화 : %s  %d년 개봉\n", tmp->title, tmp->year);
+					 printf("영화 : %s, %d년 개봉\n", tmp->title, tmp->year);
 					 tmp = tmp -> link; 
 				}
 				break;
@@ -80,7 +80,7 @@ int main()
 	{
 		next = tmp->link;
 		free(tmp); 
-		tmp = next;
+		tmp  = next;
 	}
 
 	return 0; 
