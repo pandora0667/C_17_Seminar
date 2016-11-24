@@ -11,7 +11,7 @@ int main()
 	printf("문자열의 개수 : "); 
 	scanf("%d", &count);
 
-	if( (string = malloc(count*sizeof(char *))) != NULL )
+	if( (string = (char **)malloc(count*sizeof(char *))) != NULL )
 		for( i =0; i<count; i++) 
 		{
 			string[i] = (char *)malloc(SIZE);
