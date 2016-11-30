@@ -10,17 +10,16 @@ typedef struct MOVIE {
 	struct MOVIE *link;
 } MOVIE; 
 
-MOVIE *head = NULL;
-MOVIE *tail, *addMovie, *next, *tmp;
-
-void inputMovie();
-void printMovie();
+void inputMovie(MOVIE **head, MOVIE **tail);
+void printMovie(MOVIE **head);
 int selectMenu(int select);
-void memoryFree();
-void filePrint();
+void memoryFree(MOVIE **head);
+void filePrint(MOVIE **head);
 
 int main()
 {
+	
+	MOVIE *head = NULL, *tail;
 	int select = 0; 
 	
 	printf("\t ----------연결 리스트를 활용한 영화 정보 출력----------\n\n\n");
@@ -32,13 +31,13 @@ int main()
 		switch( select ) 
 		{
 			case 1: 
-				inputMovie();
+				inputMovie(&head, &tail);
 				break; 
 			case 2:
-				printMovie();
+				printMovie(&head);
 				break; 
 			case 3:
-				filePrint();
+				filePrint(&head);
 				break; 
 			case 4:
 				printf("종료합니다. \n");
@@ -48,7 +47,7 @@ int main()
 		}
 	}
 
-	memoryFree();
+	memoryFree(&head);
 	return 0; 
 }
 
@@ -61,13 +60,11 @@ int selectMenu(int select)
 	return select;
 }
 
-void inputMovie()
+void inputMovie(MOVIE **head, MOVIE **tail)
 {
-	char buffer[S_SIZE]; 
-	int tmpYear;
+	static MOVIE *addMovie; 
 
-	addMovie = ( MOVIE * )malloc( sizeof(MOVIE) );
-	if( addMovie == NULL)
+	if ( (addMovie = ( MOVIE* )malloc( sizeof(MOVIE) )) == NULL )
 	{
 		fprintf(stderr, "동적할당 실패\n");
 		exit(1);
@@ -75,26 +72,24 @@ void inputMovie()
 
 	getchar();
 	printf("영화 제목 : ");
-	fgets(buffer, S_SIZE, stdin);
-	strcpy(addMovie->title, buffer);
+	fgets(addMovie -> title, S_SIZE, stdin);
 
 	printf("영화 개봉 연도 : ");
-	fgets(buffer, S_SIZE, stdin);
-	tmpYear = atoi(buffer);
-	addMovie->year = tmpYear;
+	scanf("%d", &addMovie -> year);
 
-	if( head == NULL)
-		head = addMovie;
+	if( (*head) == NULL)
+		(*head) = addMovie;
 	else 
-		tail -> link = addMovie;
+		(*tail) -> link = addMovie;
 	
 	addMovie->link = NULL;
-	tail = addMovie;
+	(*tail) = addMovie;
 }
 
-void printMovie() 
+void printMovie(MOVIE **head) 
 {
-	tmp = head;
+	MOVIE *tmp;
+	tmp = (*head);
 
 	printf("\n\n");
 	system("clear");
@@ -106,20 +101,22 @@ void printMovie()
 	}
 }
 
-void memoryFree()
+void memoryFree(MOVIE **head)
 {
-	tmp = head; 
+	MOVIE *tmp;
+	tmp = (*head);
 
 	while( tmp != NULL)
 	{
-		next = tmp -> link; 
+		tmp = tmp -> link; 
 		free(tmp);
-		tmp = next;
 	}
 }
 
-void filePrint()
+void filePrint(MOVIE **head)
 {
+	MOVIE *tmp; 
+	tmp = (*head); 
 	FILE *fp; 
 
 	if( (fp = fopen("MovieInfo.txt", "w")) == NULL)
@@ -127,8 +124,6 @@ void filePrint()
 		fprintf(stderr, "파일을 생성할 수 없습니다\n");
 		exit(1);
 	}
-	
-	tmp = head; 
 
 	while( tmp != NULL)
 	{
