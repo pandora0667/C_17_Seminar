@@ -64,7 +64,7 @@ void inputMovie(MOVIE **head, MOVIE **tail)
 {
 	static MOVIE *addMovie; 
 
-	if ( (addMovie = ( MOVIE* )malloc( sizeof(MOVIEr) )) == NULL )
+	if ( (addMovie = ( MOVIE* )malloc( sizeof(MOVIE) )) == NULL )
 	{
 		fprintf(stderr, "동적할당 실패\n");
 		exit(1);
