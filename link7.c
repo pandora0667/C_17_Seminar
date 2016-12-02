@@ -64,7 +64,7 @@ void inputMovie(MOVIE **head, MOVIE **tail)
 {
 	static MOVIE *addMovie; 
 
-	if ( (addMovie = ( MOVIE* )malloc( sizeof(MOVIE) )) == NULL )
+	if ( (addMovie = ( MOVIE* )malloc( sizeof(MOVIEr) )) == NULL )
 	{
 		fprintf(stderr, "동적할당 실패\n");
 		exit(1);
@@ -73,6 +73,7 @@ void inputMovie(MOVIE **head, MOVIE **tail)
 	getchar();
 	printf("영화 제목 : ");
 	fgets(addMovie -> title, S_SIZE, stdin);
+	addMovie -> title [strlen(addMovie -> title) - 1] = '\0';
 
 	printf("영화 개봉 연도 : ");
 	scanf("%d", &addMovie -> year);
